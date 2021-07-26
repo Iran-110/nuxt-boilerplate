@@ -1,0 +1,36 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "./",
+    "extraFileExtensions": [
+      ".vue"
+    ]
+  },
+  "extends": [
+    "@nuxtjs/eslint-config-typescript"
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
+  "plugins": [
+    "import"
+  ],
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["off", "single", {"avoidEscape": true}],
+    "comma-dangle": "off",
+    "object-curly-spacing": "off",
+    "space-before-function-paren": "off",
+    "vue/singleline-html-element-content-newline": "off",
+    "no-console": "off",
+    "no-redeclare": "off",
+    "brace-style": "off"
+  }
+}
