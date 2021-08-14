@@ -39,6 +39,11 @@
 ### Vuex
 + `vuex` is activated by an empty `index.js` file in the `store/` directory. (It's important for some features like `redirecting`)
 
+### API Endpoints
+For development and deployment, two local addresses `http://localhost:8000/api` and `http://localhost:8000/graphql` are configured as the default endpoints.
+
+To change these values you can use `.env` file.
+
 ## How to import?
 
 ```bash

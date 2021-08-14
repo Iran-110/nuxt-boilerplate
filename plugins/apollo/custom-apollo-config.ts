@@ -3,21 +3,27 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import {buildAxiosFetch} from '@lifeomic/axios-fetch';
 import { onError } from "@apollo/client/link/error";
 import { ApolloLink } from "@apollo/client/link/core";
+import {Context} from "@nuxt/types";
 
 const cleanTypeName = new ApolloLink((operation, forward) => {
   if (operation.variables) {
     const omitTypename = (key: string, value: any) => (key === '__typename' ? undefined : value);
+    // extract files from the first-level variables.
+    const fileEntries = Object.entries(operation.variables).filter(variable => (typeof File !== 'undefined') && (variable[1] instanceof File));
+
     operation.variables = JSON.parse(JSON.stringify(operation.variables), omitTypename);
+    // inject the files which extracted before
+    operation.variables = {...operation.variables, ...Object.fromEntries(fileEntries)};
   }
   return forward(operation).map((data) => {
     return data;
   });
 });
 
-export default (context: any) => {
+export default ({$axios, $config}: Context) => {
   const errorHandling = onError(({ networkError }) => {
     if (networkError) {
-      console.log('Network error');
+      console.log('Network error.');
     }
   });
 
@@ -25,13 +31,14 @@ export default (context: any) => {
   // https://github.com/Akryum/vue-cli-plugin-apollo/blob/master/graphql-client/src/index.js
   // createApolloClient
   return {
-    httpEndpoint: 'http://localhost:8000/graphql',
+    httpEndpoint: $config.graphQLBaseURL ?? 'http://loaclhost:8000/graphql',
+    browserHttpEndpoint: $config.graphQLBrowserBaseURL ?? 'http://loaclhost:8000/graphql',
     tokenName: "auth._token.local",
 
     // https://github.com/jaydenseric/apollo-upload-client/issues/88#issuecomment-434907278
     httpLinkOptions: {
       // uri: 'http://localhost:8000/graphql',
-      fetch: buildAxiosFetch(context.$axios, (config, _input, init) =>
+      fetch: buildAxiosFetch($axios, (config, _input, init) =>
         ({
           ...config,
 
@@ -41,6 +48,10 @@ export default (context: any) => {
             common: {},
             ...(config?.headers || {}),
           },
+
+          // reset the base-url.
+          baseURL: '',
+          browserBaseURL: '',
 
           ...(init?.onUploadProgress ? {onUploadProgress: init?.onUploadProgress} : {})
         })

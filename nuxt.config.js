@@ -150,12 +150,14 @@ export default {
   },
 
   publicRuntimeConfig: {
+    graphQLBrowserBaseURL: process.env.GRAPHQL_BROWSER_BASE_URL,
     axios: {
       browserBaseURL: process.env.BROWSER_BASE_URL,
     }
   },
 
   privateRuntimeConfig: {
+    graphQLBaseURL: process.env.GRAPHQL_BASE_URL,
     axios: {
       baseURL: process.env.BASE_URL,
     },
