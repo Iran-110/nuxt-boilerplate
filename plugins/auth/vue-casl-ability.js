@@ -1,7 +1,5 @@
-// import Vue from "vue";
-// import {abilitiesPlugin} from '@casl/vue';
-// import { AppAbility } from '~/plugins/ability';
+import Vue from "vue";
+import {abilitiesPlugin} from '@casl/vue';
+import { AppAbility } from '~/plugins/auth/ability';
 
-// Vue.use(abilitiesPlugin, AppAbility, {
-//   useGlobalProperties: true
-// });
+Vue.use(abilitiesPlugin, AppAbility);

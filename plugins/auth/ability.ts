@@ -1,4 +1,6 @@
 import {Ability, AbilityBuilder, AbilityClass} from "@casl/ability";
+import {Context} from "@nuxt/types";
+import {Inject} from "@nuxt/types/app";
 
 export enum UserRole {
   admin,
@@ -53,3 +55,24 @@ export function defineAbilityFor(user: User): AppAbility {
 
   return builder.build();
 }
+
+export const ability = defineAbilityFor({} as User);
+
+// updating ability after each logging in/out in the app.
+export default ({ app }: Context, inject: Inject) => {
+  const {store} = app;
+  inject('ability', ability);
+
+  return store?.subscribe((mutation, _state) => {
+    const {type, payload: {key, value} = {}} = mutation;
+    switch (type) {
+      // @nuxtjs/auth-next mutation type
+      case 'auth/SET':
+        if (key === 'user') {
+          const {rules} = defineAbilityFor(value);
+          ability.update(rules);
+        }
+        break;
+    }
+  });
+};

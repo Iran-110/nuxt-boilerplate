@@ -45,6 +45,7 @@ export default {
     '~/plugins/utilities/vue-carousel.js',
     '~/plugins/d-nuxt-link.js',
     { src: '~/plugins/utilities/vue-izitoast.js', mode: 'client' },
+    '~/plugins/auth/ability.ts',
     '~/plugins/auth/vue-casl-ability.js',
     '~/plugins/apollo/apollo-composable.ts',
   ],
@@ -116,7 +117,8 @@ export default {
         endpoints: {
           login: { url: '/auth'/*, propertyName: 'token' */},
           user: { url: '/user'/*, propertyName: false */},
-          logout: { url: '/' },
+          // prevent to perform post request after logging out:
+          logout: 0,
         },
         token: {
           property: 'token',
@@ -139,6 +141,7 @@ export default {
       home: '/',
     },
     plugins: [
+      '~/plugins/auth/casl-ability-initializing.js',
       '~/plugins/auth/i18n-redirect.js',
     ]
   },
