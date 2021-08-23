@@ -48,6 +48,7 @@ export default {
     '~/plugins/auth/ability.ts',
     '~/plugins/auth/vue-casl-ability.js',
     '~/plugins/apollo/apollo-composable.ts',
+    '~/plugins/vuex-persist.js',
   ],
 
   render: {

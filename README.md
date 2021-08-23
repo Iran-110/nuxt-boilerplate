@@ -38,6 +38,12 @@
   
 ### Vuex
 + `vuex` is activated by an empty `index.js` file in the `store/` directory. (It's important for some features like `redirecting`)
++ Also `vuex-persist` is activated with **cookie storage**:
+  + for working with the **vuex states** in the *server*,
+  + and persisting the data after reloading the page in the *client*. 
+  + The config file is `~/plugins/vuex-persist.js`.
+  + If you want to restrict the persistence to only some specific vuex modules,
+  you have to uncomment the `modules:` property in the configuration file and add your module name that you used before in the `store` directory.
 
 ### API Endpoints
 For development and deployment, two local addresses `http://localhost:8000/api` and `http://localhost:8000/graphql` are configured as the default endpoints.
